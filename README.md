@@ -19,7 +19,7 @@ console.log(fred.huurtoeslag()); // => 132.82
 
 Alle parameters:
 
-```
+```javascript
 geboortedatum: dateString
 inkomen: {
     "aanvrager": number,
