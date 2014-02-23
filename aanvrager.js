@@ -80,7 +80,6 @@ function Aanvrager(kenmerken) {
 
   function formuleBasishuur(parameters) {
     // Bonusvraag: vind de nulpunten van dit polynoom
-    debugger;
     return parameters["A"] * that.rekeninkomen * that.rekeninkomen + parameters["B"] * that.rekeninkomen + parameters["TAAKSTELLINGSBEDRAG"];
   }
 
