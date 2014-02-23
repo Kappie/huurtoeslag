@@ -117,24 +117,76 @@ describe ("Aanvrager", function() {
   describe("Soort huishouden", function() {
 
     it("EP", function() {
-      var aanvrager = new Aanvrager({"grootteHuishouden": 1, "geboortedatum": "1992-12-18"});
+      var aanvrager = new Aanvrager({"grootteHuishouden": 1, "hoofdaandeelAOWers": false});
       expect(aanvrager.soortHuishouden()).toEqual("EP");
     });
 
     it("MP", function() {
-      var aanvrager = new Aanvrager({"grootteHuishouden": 2, "geboortedatum": "1992-12-18"});
+      var aanvrager = new Aanvrager({"grootteHuishouden": 2, "hoofdaandeelAOWers": false});
       expect(aanvrager.soortHuishouden()).toEqual("MP");
     });
 
     it("EP 65+", function() {
-      var aanvrager = new Aanvrager({"grootteHuishouden": 1, "geboortedatum": "1930-12-18"});
+      var aanvrager = new Aanvrager({"grootteHuishouden": 1, "hoofdaandeelAOWers": true});
       expect(aanvrager.soortHuishouden()).toEqual("EP 65+");
     });
 
     it("MP 65+", function() {
-      var aanvrager = new Aanvrager({"grootteHuishouden": 2, "geboortedatum": "1930-12-18"});
+      var aanvrager = new Aanvrager({"grootteHuishouden": 2, "hoofdaandeelAOWers": true});
       expect(aanvrager.soortHuishouden()).toEqual("MP 65+");
     });
+  });
+
+  describe("Basishuur", function() {
+
+    it("EP onder minimuminkomen", function() {
+      var aanvrager = new Aanvrager({"grootteHuishouden": 1, "hoofdaandeelAOWers": false, "inkomen": {"aanvrager": 0}});
+      expect(aanvrager.basishuur()).toEqual(222.18);
+    });
+
+    it("MP in midden-regime", function() {
+      var aanvrager = new Aanvrager({"grootteHuishouden": 2, "hoofdaandeelAOWers": false, "inkomen": {"aanvrager": 25000}});
+      expect(aanvrager.basishuur()).toEqual(341.71331855);
+    });
+
+    it("MP 65+ onder minimuminkomen", function() {
+      var aanvrager = new Aanvrager({"grootteHuishouden": 2, "hoofdaandeelAOWers": true, "inkomen": {"aanvrager": 21000}});
+      expect(aanvrager.basishuur()).toEqual(218.55);
+    });
+
+    it("EP 65+ boven doelgroepgrens", function() {
+      var aanvrager = new Aanvrager({"grootteHuishouden": 1, "hoofdaandeelAOWers": true, "inkomen": {"aanvrager": 1000000}});
+      expect(aanvrager.basishuur()).toEqual(0);
+    });
+
+  });
+
+  describe("Aftoppingsgrens", function() {
+
+    it("voor een of twee personen", function() {
+      var aanvrager = new Aanvrager({"grootteHuishouden": 2});
+      expect(aanvrager.aftoppingsgrens()).toEqual(535.91);
+    });
+
+    it("voor meer dan twee personen", function() {
+      var aanvrager = new Aanvrager({"grootteHuishouden": 5});
+      expect(aanvrager.aftoppingsgrens()).toEqual(574.35);
+    });
+
+  });
+
+  describe("Huurtoeslag", function() {
+
+    it("voor het rekenvoorbeeld van fred uit de spec", function() {
+      var fred_params = {
+        "geboortedatum": "1994-01-01",
+        "inkomen": {"aanvrager": 14500},
+        "huur": {"kaleHuur": 320, "energie": 12, "huismeester": 11, "schoonmaak": 15, "ruimten": 0},
+        };
+      fred = new Aanvrager(fred_params);
+      expect(fred.huurtoeslag()).toEqual(120.84);
+    });
+
   });
 
 });
