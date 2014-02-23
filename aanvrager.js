@@ -46,7 +46,6 @@ function Aanvrager(kenmerken) {
   };
 
   function huurToeslagA() {
-    debugger;
     var toeslag = Math.min(that.rekenhuur, that.maximaleHuurgrens()) - that.basishuur();
     return (toeslag < 0) ? 0 : toeslag;
   }
@@ -175,10 +174,3 @@ Aanvrager.prototype.aftoppingsgrens = function() {
   var GRENS_MEER_DAN_TWEE = 574.35, GRENS_MINDER_DAN_TWEE = 535.91;
   return (this.grootteHuishouden > 2) ? GRENS_MEER_DAN_TWEE : GRENS_MINDER_DAN_TWEE;
 };
-
-var fred_params = {
-        "geboortedatum": "1994-01-01",
-        "inkomen": {"aanvrager": 14500},
-        "huur": {"kaleHuur": 320, "energie": 12, "huismeester": 11, "schoonmaak": 15, "ruimten": 0},
-        };
-      fred = new Aanvrager(fred_params);

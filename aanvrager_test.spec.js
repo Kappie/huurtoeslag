@@ -184,7 +184,7 @@ describe ("Aanvrager", function() {
         "huur": {"kaleHuur": 320, "energie": 12, "huismeester": 11, "schoonmaak": 15, "ruimten": 0},
         };
       fred = new Aanvrager(fred_params);
-      expect(fred.huurtoeslag()).toEqual(120.84);
+      expect(fred.huurtoeslag()).toEqual(132.82);
     });
 
   });
