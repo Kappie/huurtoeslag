@@ -20,19 +20,30 @@ console.log(fred.huurtoeslag()); // => 132.82
 Alle parameters:
 
 ```javascript
+//
+// VERPLICHTE PARAMETERS
+// geboortedatum, inkomen en huur zijn nodig voor berekening huurtoeslag.
+//
 geboortedatum: dateString
+// aanvrager verplicht, toeslagpartners en medebewoners optioneel
 inkomen: {
     "aanvrager": number,
     "toeslagpartner": number,
     "medebewoners": number
 }
 huur: {
+// kaleHuur verplicht, rest optioneel en wordt voor max 12 euro meegerekend.
     "kaleHuur": number,
     "energie": number,
     "huismeester": number,
     "schoonmaak": number,
     "ruimten": number
 }
+
+//
+// OPTIONELE PARAMETERS
+//
+
 
 /* 
 Uw klant is een alleenstaande ouder. Uw klant € 42.278
