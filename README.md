@@ -17,13 +17,10 @@ console.log(fred.huurtoeslag()); // => 132.82
 
 ```
 
-Alle parameters:
+Alle parameters (invullen wat van toepassing is):
 
 ```javascript
-//
-// VERPLICHTE PARAMETERS
-// geboortedatum, inkomen en huur zijn nodig voor berekening huurtoeslag.
-//
+
 geboortedatum: dateString
 // aanvrager verplicht, toeslagpartners en medebewoners optioneel
 inkomen: {
@@ -40,10 +37,8 @@ huur: {
     "ruimten": number
 }
 
-//
-// OPTIONELE PARAMETERS
-//
-
+// niet ingevuld: 0
+vermogen: number
 
 /* 
 Uw klant is een alleenstaande ouder. Uw klant € 42.278
@@ -56,12 +51,19 @@ De volgende boolean slaat op deze hele regeling.
 
 alleenstaandeOuder: boolean
 
+// In de voorafgaande maand ontving uw klant voor dezelfde woning huurtoeslag
+// en na een stijging van de huur komt de rekenhuur boven de maximale
+// huurgrens uit.
+verworvenRecht: boolean
+
 // heeft aanvrager een kind?
 kind: boolean
 gehandicapt: boolean
+// niet ingevuld: 1
 grootteHuishouden: number
 
 // true als meer dan 50% van het inkomen wordt verdiend door AOWers
+// Niet nodig als huishouden uit één persoon van boven de 65 bestaat.
 hoofdaandeelAOWers: boolean
 
 // bestaat het huishouden van aanvrager uit één of meer AOWers?

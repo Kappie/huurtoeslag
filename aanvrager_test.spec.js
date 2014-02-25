@@ -177,14 +177,70 @@ describe ("Aanvrager", function() {
 
   describe("Huurtoeslag", function() {
 
-    it("voor het rekenvoorbeeld van fred uit de spec", function() {
-      var fred_params = {
+    it("voor het rekenvoorbeeld van Fred uit de spec", function() {
+      var params = {
         "geboortedatum": "1994-01-01",
         "inkomen": {"aanvrager": 14500},
         "huur": {"kaleHuur": 320, "energie": 12, "huismeester": 11, "schoonmaak": 15, "ruimten": 0},
         };
-      fred = new Aanvrager(fred_params);
+      fred = new Aanvrager(params);
       expect(fred.huurtoeslag()).toEqual(132.82);
+    });
+
+
+    it("voor het rekenvoorbeeld van Jasper en Sophie", function() {
+      var params = {
+        "geboortedatum": "1984-01-01",
+        "inkomen": {"aanvrager": 20000, "toeslagpartner": 5000},
+        "huur": {"kaleHuur": 510, "energie": 0, "huismeester": 0, "schoonmaak": 0, "ruimten": 0},
+        "kind": true, "grootteHuishouden": 2
+        };
+      jasper = new Aanvrager(params);
+      expect(jasper.huurtoeslag()).toEqual(120.84);
+    });
+
+    it("voor het rekenvoorbeeld van Rina", function() {
+      var params = {
+        "geboortedatum": "1948-01-01",
+        "inkomen": {"aanvrager": 15000},
+        "huur": {"kaleHuur": 513, "energie": 16, "huismeester": 20, "schoonmaak": 16, "ruimten": 11}
+        };
+      rina = new Aanvrager(params);
+      expect(rina.huurtoeslag()).toEqual(268.67);
+    });
+
+    it("voor het rekenvoorbeeld van Alfred, Yasmine en Sem", function() {
+      var params = {
+        "geboortedatum": "1947-01-01",
+        "inkomen": {"aanvrager": 20000, "toeslagpartner": 0, "medebewoners": 5000},
+        "huur": {"kaleHuur": 560, "energie": 0, "huismeester": 0, "schoonmaak": 0, "ruimten": 0},
+        "kind": true, "hoofdaandeelAOWers": true, "grootteHuishouden": 3
+        };
+      alfred = new Aanvrager(params);
+      expect(alfred.huurtoeslag()).toEqual(196.16);
+    });
+
+    it("voor iemand met te veel vermogen", function() {
+      var params = {
+        "geboortedatum": "1947-01-01",
+        "inkomen": {"aanvrager": 20000, "toeslagpartner": 0, "medebewoners": 5000},
+        "huur": {"kaleHuur": 560, "energie": 0, "huismeester": 0, "schoonmaak": 0, "ruimten": 0},
+        "kind": true, "hoofdaandeelAOWers": true, "grootteHuishouden": 3, 
+        "vermogen": 100000
+        };
+      aanvrager = new Aanvrager(params);
+      expect(aanvrager.huurtoeslag()).toEqual(0);
+    });
+
+    it("voor iemand met te hoge huur", function() {
+      var params = {
+        "geboortedatum": "1947-01-01",
+        "inkomen": {"aanvrager": 20000, "toeslagpartner": 0, "medebewoners": 5000},
+        "huur": {"kaleHuur": 1600, "energie": 0, "huismeester": 0, "schoonmaak": 0, "ruimten": 0},
+        "kind": true, "hoofdaandeelAOWers": true, "grootteHuishouden": 3,
+        };
+      aanvrager = new Aanvrager(params);
+      expect(aanvrager.huurtoeslag()).toEqual(0);
     });
 
   });
