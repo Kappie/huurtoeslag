@@ -31,6 +31,8 @@ function Aanvrager(kenmerken) {
 
   this.KWALITEITSKORTINGSGRENS = 374.44;
 
+  var that = this;
+
   this.leeftijd = berekenLeeftijd(kenmerken["geboortedatum"]);
   this.rekenhuur = berekenHuur(kenmerken["huur"]);
   this.rekeninkomen = berekenInkomen(kenmerken["inkomen"]);
@@ -42,8 +44,7 @@ function Aanvrager(kenmerken) {
   this.AOWerInHuishouden = kenmerken["AOWerInHuishouden"];
   this.vermogen = kenmerken["vermogen"] || 0;
   this.verworvenRecht = kenmerken["verworvenRecht"];
-
-  var that = this;
+  this.huishoudenAchtOfMeer = kenmerken["huishoudenAchtOfMeer"];
 
   this.huurtoeslag = function() {
     if (this.vermogen > this.vrijstellingsgrens()) { return 0; }
@@ -122,6 +123,10 @@ function Aanvrager(kenmerken) {
       totaleHuur += componenten[soortenHuur[i]];
     }
 
+    if (totaleHuur > that.maximaleHuurgrens() && ( that.gehandicapt || that.verworvenRecht || that.huishoudenAchtOfMeer )) {
+      totaleHuur = that.maximaleHuurgrens();
+    }
+
     return totaleHuur;
   }
 
@@ -187,12 +192,3 @@ Aanvrager.prototype.aftoppingsgrens = function() {
   var GRENS_MEER_DAN_TWEE = 574.35, GRENS_MINDER_DAN_TWEE = 535.91;
   return (this.grootteHuishouden > 2) ? GRENS_MEER_DAN_TWEE : GRENS_MINDER_DAN_TWEE;
 };
-
-      var params = {
-        "geboortedatum": "1947-01-01",
-        "inkomen": {"aanvrager": 20000, "toeslagpartner": 0, "medebewoners": 5000},
-        "huur": {"kaleHuur": 560, "energie": 0, "huismeester": 0, "schoonmaak": 0, "ruimten": 0},
-        "kind": true, "hoofdaandeelAOWers": true
-        };
-      alfred = new Aanvrager(params);
-      console.log(alfred.huurtoeslag());
